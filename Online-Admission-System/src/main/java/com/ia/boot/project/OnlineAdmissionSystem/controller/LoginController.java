@@ -17,6 +17,7 @@ public class LoginController {
 	@Autowired
 	LoginService loginService;
 
+//	Main login function
 	@PostMapping("/login")
 	public String login(@RequestBody Login userDetails) {
 		return loginService.checkLogin(userDetails);

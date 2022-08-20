@@ -25,29 +25,58 @@ public class AdminController {
 	@Autowired
 	CourseService courseService;
 	
+//	View all courses
 	@GetMapping("/courses")
 	public List<Course> viewAllCourses() {
 		return courseService.viewAllCourses();
 	}
 	
+//	Add a course
 	@PostMapping("/courses")
 	public Course addCourse(@RequestBody Course course) {
 		return courseService.addCourse(course);
 	}
 	
+//	Edit a course
 	@PutMapping("/courses")
 	public Course editCourse(@RequestBody Course course) {
 		return courseService.editCourse(course);
 	}
 	
+//	Delete a course
 	@DeleteMapping("/courses")
 	public void deleteCourse(@RequestParam("id") int id) {
 		courseService.deleteCourse(id);
 		return;
 	}
 	
+//	Get a specific course
 	@GetMapping("/courses/{id}")
 	public Optional<Course> viewCourse(@PathVariable int id) {
 		return courseService.viewCourse(id);
+	}
+	
+//	Get all applications pending approval
+	@GetMapping("/courses/enrollments")
+	public List<Application> viewAllApplications() {
+		return applicationService.viewAllApplications();
+	}
+	
+//	Approve an application
+	@PutMapping("/courses/enrollments/approve")
+	public void approveApplication(@RequestParam("id") int id) {
+		applicationService.approveApplication(id);
+	}
+	
+//	Decline an application
+	@PutMapping("/courses/enrollments/decline")
+	public void declineApplication(@RequestParam("id") int id) {
+		applicationService.declineApplication(id);
+	}
+	
+//	View all students enrolled to a course
+	@GetMapping("/courses/enrollments/course")
+	public List<Application> viewCourseStudents(@RequestParam("id") int id) {
+		return applicationService.viewCourseStudents(id);
 	}
 }
