@@ -1,4 +1,4 @@
-package com.ia.boot.project.Online.Admission.System;
+package com.ia.boot.project.OnlineAdmissionSystem;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
