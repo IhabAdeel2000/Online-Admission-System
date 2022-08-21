@@ -1,8 +1,10 @@
 package com.ia.boot.project.OnlineAdmissionSystem.controller;
-
 import java.util.List;
 import java.util.Optional;
 
+import com.ia.boot.project.OnlineAdmissionSystem.exceptions.CourseNotFoundException;
+import com.ia.boot.project.OnlineAdmissionSystem.exceptions.StudentNotFoundException;
+import com.ia.boot.project.OnlineAdmissionSystem.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,65 +22,38 @@ import com.ia.boot.project.OnlineAdmissionSystem.service.ApplicationService;
 import com.ia.boot.project.OnlineAdmissionSystem.service.CourseService;
 
 @RestController
-@RequestMapping("/api/admin")
-public class AdminController {
-	
+@RequestMapping("/api/student")
+public class StudentController {
 	@Autowired
 	CourseService courseService;
 	
 	@Autowired
 	ApplicationService applicationService;
+	
+	@Autowired
+	StudentService studentService;
 
 //	View all courses
 	@GetMapping("/courses")
 	public List<Course> viewAllCourses() {
 		return courseService.viewAllCourses();
 	}
-	
-//	Add a course
-	@PostMapping("/courses")
-	public Course addCourse(@RequestBody Course course) {
-		return courseService.addCourse(course);
-	}
-	
-//	Edit a course
-	@PutMapping("/courses")
-	public Course editCourse(@RequestBody Course course) {
-		return courseService.editCourse(course);
-	}
-	
-//	Delete a course
-	@DeleteMapping("/courses")
-	public void deleteCourse(@RequestParam("id") int id) {
-		courseService.deleteCourse(id);
-		return;
-	}
-	
+
 //	Get a specific course
 	@GetMapping("/courses/{id}")
 	public Optional<Course> viewCourse(@PathVariable int id) {
 		return courseService.viewCourse(id);
 	}
 
-// View all Applications for all courses
-	@GetMapping("enrollments/applications")
-	public List<Application> viewApplications() {
-		return applicationService.viewApplications();
-	}
-	
-// Update Application Status
-	@PutMapping ("enrollments/applications")
-	public Application updateStatus(@RequestBody Application application) {
+//  Apply for a course 
+	@PostMapping("/enrollments/applications")
+	public void applyForCourse(@RequestParam("cID") int cID, @RequestParam("sID") int sID){
 		try{
-			return applicationService.updateStatus(application);
-		}catch(Exception e) {
-			return null;
+			studentService.applyForCourse(cID, sID);
+		}catch(CourseNotFoundException e) {
+			e.courseNotFound();
+		}catch(StudentNotFoundException e) {
+			e.studentNotFound();
 		}
-	}
-
-// View all students enrolled to a course
-	@GetMapping("enrollments/course")
-	public List<Application> viewCourseStudents(@RequestParam("id") int id) {
-		return applicationService.viewCourseStudents(id);
 	}
 }
