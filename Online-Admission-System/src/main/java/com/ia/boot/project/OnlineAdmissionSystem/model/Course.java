@@ -16,6 +16,19 @@ public class Course {
 	String courseDuration;
 	int courseCredits;
 	String courseCode;
+	
+	public Course() {
+		super();
+	}
+	
+	public Course(int courseId, String courseTitle, String courseDuration, int courseCredits, String courseCode) {
+		super();
+		this.courseId = courseId;
+		this.courseTitle = courseTitle;
+		this.courseDuration = courseDuration;
+		this.courseCredits = courseCredits;
+		this.courseCode = courseCode;
+	}
 	/**
 	 * @return the courseID
 	 */
